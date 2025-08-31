@@ -1,0 +1,268 @@
+:root {
+    --primary-purple: #9400D3;
+    --primary-pink: #FF00FF;
+    --primary-blue: #00BFFF;
+    --background-dark: #030014;
+    --text-light: #F0F8FF;
+    --font-title: 'Orbitron', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    /* Make background transparent for OBS */
+    background-color: transparent;
+    color: var(--text-light);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* --- Controls --- */
+.controls {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(10, 2, 26, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--primary-purple);
+    z-index: 1000;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 20px rgba(148, 0, 211, 0.5);
+}
+
+/* Hide controls in OBS scene view */
+body.scene-view .controls {
+    display: none !important;
+}
+/* Show controls if it's the control panel */
+body:not(.scene-view) {
+    background-color: var(--background-dark);
+}
+
+
+.controls-group {
+    display: flex;
+    gap: 6px;
+    padding: 0 10px;
+    align-items: center;
+}
+.controls-group:not(:last-child) {
+    border-right: 1px solid rgba(148, 0, 211, 0.5);
+}
+.controls button {
+    background-color: var(--primary-purple);
+    color: var(--text-light);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.controls button:hover {
+    background-color: var(--primary-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--primary-pink);
+}
+.controls button.active {
+    background-color: var(--primary-blue);
+    box-shadow: 0 0 15px var(--primary-blue);
+}
+
+/* --- Scene Management --- */
+.scene {
+    display: none;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.scene.active {
+    display: block;
+}
+
+/* --- FUTURISTIC NEON BACKGROUND --- */
+.futuristic-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--background-dark); /* Fallback for local view */
+    overflow: hidden;
+    perspective: 600px;
+}
+
+body.scene-view .futuristic-background {
+    background: transparent; /* Ensure background is transparent in OBS */
+}
+
+
+.grid-floor {
+    position: absolute;
+    bottom: 0;
+    left: -25%;
+    width: 150%;
+    height: 100%;
+    background-image: 
+        linear-gradient(to top, var(--primary-blue) 1px, transparent 1px), 
+        linear-gradient(to right, var(--primary-blue) 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform: rotateX(85deg);
+    animation: moveGrid 5s linear infinite;
+}
+@keyframes moveGrid {
+    from { background-position: 0 0; }
+    to { background-position: 0 40px; }
+}
+.side-frame {
+    position: absolute;
+    top: 5%;
+    width: 15%;
+    height: 90%;
+    border: 3px solid var(--primary-pink);
+    border-radius: 20px;
+    box-shadow: 0 0 15px var(--primary-pink), 0 0 30px var(--primary-pink) inset;
+    animation: pulse-glow 4s infinite alternate;
+}
+.side-frame.left { left: 5%; }
+.side-frame.right { right: 5%; }
+.fog-layer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, var(--background-dark) 20%, transparent);
+}
+
+body.scene-view .fog-layer {
+     background: linear-gradient(to top, rgba(3, 0, 20, 0.8) 20%, transparent);
+}
+
+@keyframes pulse-glow {
+    from { box-shadow: 0 0 15px var(--primary-pink), 0 0 30px var(--primary-pink) inset; }
+    to { box-shadow: 0 0 25px var(--primary-blue), 0 0 50px var(--primary-blue) inset; }
+}
+
+/* --- Enhanced Logo & Title --- */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.logo-svg {
+    width: 180px;
+    filter: drop-shadow(0 0 30px var(--primary-blue));
+}
+.logo-svg path {
+    stroke-width: 5;
+    fill: none;
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    animation: draw 2s ease-out 0.5s forwards;
+}
+.main-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 10vw, 5.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: var(--text-light);
+    text-shadow: 0 0 5px #fff, 0 0 10px var(--primary-blue), 0 0 20px var(--primary-blue), 0 0 40px var(--primary-purple), 0 0 60px var(--primary-purple);
+}
+#intro-scene .main-title, #outro-scene .main-title {
+    animation: slow-pulse 5s infinite alternate;
+}
+
+
+/* --- Fullscreen Scenes (Start, Intro, Outro) --- */
+.fullscreen-center-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 2.5rem;
+    animation: fadeIn 1s ease-out;
+}
+.countdown-timer, .social-box {
+    background: rgba(0,0,0,0.5);
+    border: 3px solid var(--primary-blue);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-family: var(--font-title);
+    box-shadow: 0 0 20px var(--primary-blue) inset, 0 0 15px var(--primary-blue);
+}
+.countdown-timer { font-size: clamp(2rem, 8vw, 4rem); }
+.outro-message { font-size: 2rem; font-weight: 700; margin-top: 1rem; }
+.social-box { font-size: 1.5rem; text-align: center; }
+
+/* --- In-Game Overlay Scene --- */
+.overlay-container {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+.overlay-element {
+    position: absolute;
+    background: rgba(10, 2, 26, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 2px solid var(--primary-purple);
+    border-top: 5px solid var(--primary-blue);
+    padding: 10px 20px;
+    animation: slideInFromTop 0.5s ease-out;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+}
+.horizontal-layout .latest-events { bottom: 20px; left: 20px; display: flex; gap: 25px; }
+.vertical-layout .latest-events { bottom: 10px; left: 10px; right: 10px; display: flex; justify-content: space-around; width: auto; border-top: 3px solid var(--primary-blue); padding: 8px 15px; }
+.event-box { text-align: center; }
+.event-box .label { font-size: 0.9rem; text-transform: uppercase; color: var(--primary-blue); font-weight: 700;}
+.event-box .value { font-size: 1.2rem; font-weight: 700; }
+
+/* --- Alerts --- */
+.alert-wrapper { position: absolute; max-width: 90%; z-index: 100; top: 20px; left: 50%; transform: translateX(-50%); width: 500px; }
+.vertical-layout .alert-wrapper { top: 20px; left: 10px; right: 10px; width: auto; transform: translateX(0); }
+.alert-box {
+    pointer-events: all;
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+    padding: 15px 25px; border-radius: 12px;
+    border: 2px solid var(--text-light);
+    box-shadow: 0 0 30px var(--primary-pink), 0 0 50px var(--primary-purple);
+    display: flex; align-items: center; gap: 15px;
+    color: white;
+    animation: slideInFromTop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.alert-box .icon { font-size: 2.5em; }
+.alert-box .message .title { font-family: var(--font-title); font-size: 1.4em; margin: 0; padding: 0; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.alert-box .message .detail { font-size: 1em; margin: 0; padding: 0; }
+.superchat-alert .message .detail { background: rgba(0,0,0,0.2); padding: 5px 10px; border-radius: 8px; margin-top: 5px; font-style: italic; }
+
+/* --- Animations --- */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInFromTop { from { transform: translateY(-200%); opacity: 0; } to { transform: translateY(0); } }
+@keyframes fadeOut { to { opacity: 0; } }
+@keyframes slow-pulse {
+    from { text-shadow: 0 0 5px #fff, 0 0 10px var(--primary-blue), 0 0 20px var(--primary-blue), 0 0 40px var(--primary-purple), 0 0 60px var(--primary-purple); }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px var(--primary-blue), 0 0 35px var(--primary-blue), 0 0 55px var(--primary-purple), 0 0 80px var(--primary-purple); }
+}
+
