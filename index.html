@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X64DOMINATORYT - Stream Toolkit</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- This is the control panel for local testing. It's hidden in OBS. -->
+    <div class="controls">
+        <div class="controls-group">
+            <button id="btn-starting" class="active">Starting</button>
+            <button id="btn-intro">Intro</button>
+            <button id="btn-horizontal">Horizontal</button>
+            <button id="btn-vertical">Vertical</button>
+            <button id="btn-brb">BRB</button>
+            <button id="btn-outro">Outro</button>
+        </div>
+        <div class="controls-group">
+            <button id="btn-sub">Test Subscriber</button>
+            <button id="btn-superchat">Test Super Chat</button>
+        </div>
+    </div>
+    
+    <!-- Shared background element for all scenes -->
+    <div class="futuristic-background">
+        <div class="grid-floor"></div>
+        <div class="side-frame left"></div>
+        <div class="side-frame right"></div>
+        <div class="fog-layer"></div>
+    </div>
+
+    <!-- Starting Soon Scene -->
+    <div id="starting-scene" class="scene">
+        <div class="fullscreen-center-content">
+            <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 100 80">
+                    <path stroke="var(--primary-blue)" d="M5 5 L25 5 L45 40 L25 75 L5 75 L25 40 Z"></path>
+                    <path stroke="var(--primary-pink)" d="M95 5 L75 5 L55 40 L75 75 L95 75 L75 40 Z" style="animation-delay: 0.2s;"></path>
+                </svg>
+                <h1 class="main-title">X64DOMINATORYT</h1>
+            </div>
+            <div class="countdown-timer" id="countdown">05:00</div>
+            <h2>STARTING SOON</h2>
+        </div>
+    </div>
+    
+    <!-- Intro Scene -->
+    <div id="intro-scene" class="scene">
+        <div class="fullscreen-center-content">
+             <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 100 80">
+                    <path stroke="var(--primary-blue)" d="M5 5 L25 5 L45 40 L25 75 L5 75 L25 40 Z"></path>
+                    <path stroke="var(--primary-pink)" d="M95 5 L75 5 L55 40 L75 75 L95 75 L75 40 Z" style="animation-delay: 0.2s;"></path>
+                </svg>
+                <h1 class="main-title">X64DOMINATORYT</h1>
+             </div>
+        </div>
+    </div>
+
+    <!-- Horizontal In-Game Overlay Scene -->
+    <div id="horizontal-scene" class="scene">
+        <div class="overlay-container horizontal-layout">
+            <div class="latest-events overlay-element">
+                <div class="event-box"><div class="label">Newest Subscriber</div><div class="value latest-sub">AwesomeViewer123</div></div>
+                <div class="event-box"><div class="label">Top Donator</div><div class="value top-donator">GenerousGamer</div></div>
+                <div class="event-box"><div class="label">Followers</div><div class="value follower-count">1,234</div></div>
+            </div>
+            <div class="alert-wrapper"></div>
+        </div>
+    </div>
+
+    <!-- Vertical In-Game Overlay Scene -->
+    <div id="vertical-scene" class="scene">
+        <div class="overlay-container vertical-layout">
+            <div class="latest-events overlay-element">
+                <div class="event-box"><div class="label">Subscriber</div><div class="value latest-sub">AwesomeViewer123</div></div>
+                <div class="event-box"><div class="label">Followers</div><div class="value follower-count">1,234</div></div>
+            </div>
+            <div class="alert-wrapper"></div>
+        </div>
+    </div>
+    
+    <!-- BRB Scene -->
+    <div id="brb-scene" class="scene">
+        <div class="fullscreen-center-content">
+            <h1 class="main-title" style="font-size: clamp(3rem, 15vw, 8rem);">BE RIGHT BACK</h1>
+            <div class="logo-container">
+                 <svg class="logo-svg" viewBox="0 0 100 80" style="width:120px;">
+                    <path stroke="var(--primary-blue)" d="M5 5 L25 5 L45 40 L25 75 L5 75 L25 40 Z"></path>
+                    <path stroke="var(--primary-pink)" d="M95 5 L75 5 L55 40 L75 75 L95 75 L75 40 Z" style="animation-delay: 0.2s;"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Outro Scene -->
+    <div id="outro-scene" class="scene">
+        <div class="fullscreen-center-content">
+            <h1 class="main-title">X64DOMINATORYT</h1>
+            <div class="outro-message">THANKS FOR WATCHING!</div>
+            <div class="social-box">Follow me on other platforms!<br><strong>@X64DOMINATORYT</strong></div>
+        </div>
+    </div>
+
+    <!-- Sound & Logic Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
